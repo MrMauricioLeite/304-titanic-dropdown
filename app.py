@@ -38,6 +38,12 @@ app.layout = html.Div([
         value=variables_list[0]
     ),
     html.Br(),
+    dcc.Dropdown(
+        id='slicer',
+        options=[{'label': i, 'value': i} for i in variables_list],
+        value=variables_list[0]
+    ),
+    html.Br(),
     dcc.Graph(id='display-value'),
     html.A('Code on Github', href=githublink),
     html.Br(),
@@ -47,9 +53,9 @@ app.layout = html.Div([
 
 ######### Interactive callbacks go here #########
 @app.callback(Output('display-value', 'figure'),
-              [Input('dropdown', 'value')])
-def display_value(continuous_var):
-    grouped_mean=df.groupby(['Cabin Class', 'Embarked'])[continuous_var].mean()
+              [Input('dropdown', 'value'),Input('slicer', 'value')])
+def display_value(continuous_var,second_dimension):
+    grouped_mean=df.groupby(['Cabin Class', second_dimension])[continuous_var].mean()
     results=pd.DataFrame(grouped_mean)
     # Create a grouped bar chart
     mydata1 = go.Bar(
@@ -73,7 +79,7 @@ def display_value(continuous_var):
 
     mylayout = go.Layout(
         title='Grouped bar chart',
-        xaxis = dict(title = 'Port of Embarkation'), # x-axis label
+        xaxis = dict(title = str(second_dimension)), # x-axis label
         yaxis = dict(title = str(continuous_var)), # y-axis label
 
     )
