@@ -21,7 +21,7 @@ githublink = 'https://github.com/plotly-dash-apps/304-titanic-dropdown'
 df = pd.read_csv("https://raw.githubusercontent.com/austinlasseter/plotly_dash_tutorial/master/00%20resources/titanic.csv")
 df['Female']=df['Sex'].map({'male':0, 'female':1})
 df['Cabin Class'] = df['Pclass'].map({1:'first', 2: 'second', 3:'third'})
-variables_list=['Survived', 'Female', 'Fare', 'Age']
+variables_list=['Survived','Embarked', 'Female', 'Fare', 'Age']
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -41,7 +41,7 @@ app.layout = html.Div([
     dcc.Dropdown(
         id='slicer',
         options=[{'label': i, 'value': i} for i in variables_list],
-        value=variables_list[0]
+        value=variables_list[1]
     ),
     html.Br(),
     dcc.Graph(id='display-value'),
